@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>留言板</title>
+    <script src="./js/animate.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-image: url(./images/456-0079.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+        
+        .box {
+            margin: 20px auto;
+            width: 600px;
+            height: 300px;
+            opacity: 0.9;
+        }
+        
+        div h1 {
+            color: cornflowerblue;
+            text-align: center;
+        }
+        
+        .inputBlock {
+            padding: 5px;
+            width: 600px;
+            height: 300px;
+            border: 2px solid skyblue;
+            border-radius: 8px;
+            vertical-align: bottom;
+            resize: none;
+            outline-color: blue;
+        }
+        
+        button {
+            padding: 2px;
+            width: 80px;
+            height: 40px;
+            color: #ccc;
+            background-color: blue;
+            border: 1px solid skyblue;
+            border-radius: 8px;
+            box-sizing: border-box;
+            cursor: pointer;
+        }
+        
+        ul,
+        li {
+            list-style: none;
+        }
+        
+        li {
+            float: left;
+            padding: 5px;
+            margin-bottom: 2px;
+            width: 600px;
+            border: 3px solid cornflowerblue;
+            background-color: #fff;
+        }
+        
+        a {
+            float: right;
+            text-decoration: none;
+        }
+        
+        .returnT {
+            display: none;
+            position: fixed;
+            padding-top: 10px;
+            bottom: 0;
+            right: 0;
+            width: 30px;
+            height: 100px;
+            text-align: center;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            opacity: 0.8;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <h1>留言板</h1>
+        <textarea name="text" id="" class="inputBlock" placeholder="请输入您的评论......" autocomplete="off"></textarea><button>发表评论</button>
+        <ul>
+        </ul>
+        <div class="returnT">返回顶部</div>
+    </div>
+    <script>
+        var text = document.querySelector('.inputBlock');
+        var btn = document.querySelector('button');
+        var ul = document.querySelector('ul');
+        var num = 0;
+        var returnT = document.querySelector('.returnT');
+
+        function getNow() {
+            var timer = new Date();
+            var y = timer.getFullYear();
+            var m = timer.getMonth() + 1;
+            var d = timer.getDate();
+            return y + '-' + m + '-' + d;
+        }
+
+        btn.addEventListener('click', function() {
+            if (text.value == '') {
+                alert('未输入内容');
+            } else {
+                num++;
+                var li = document.createElement('li');
+                li.innerHTML = num + '.' + text.value + '——' + getNow() + "<a href='javascript:;'>删除</a>";
+                ul.insertBefore(li, ul.children[0]);
+                var as = document.querySelectorAll('a');
+                for (var i = 0; i < as.length; i++) {
+                    as[i].addEventListener('click', function() {
+                        ul.removeChild(this.parentNode);
+                        num--;
+                    });
+                }
+                text.value = '';
+            }
+        });
+
+        document.addEventListener('scroll', function() {
+            if (pageYOffset >= 90) {
+                returnT.style.display = 'block';
+            } else {
+                returnT.style.display = 'none';
+            }
+        });
+
+        returnT.addEventListener('click', function() {
+            // window.scroll(0, 0);
+            animate(window, 0);
+        });
+    </script>
+</body>
+
+</html>
